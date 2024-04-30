@@ -1,6 +1,7 @@
-import React from "react";
+import {React, useState} from "react";
 import { Form, Col, Button } from "react-bootstrap";
 import emailjs from "@emailjs/browser";
+import ReCAPTCHA from 'react-google-recaptcha';
 import "./form.css";
 
 const SERVICE_ID = "service_p920ico";
@@ -8,8 +9,16 @@ const TEMPLATE_ID = "template_i5pi6qu";
 const PUBLIC_KEY = "rq898-0ALb3WReHI3";
 
 export const FormFields = (props) => {
+    const [recaptchaResponse, setRecaptchaResponse] = useState(null);
+
     const handleOnSubmit = (e) => {
         e.preventDefault();
+
+        if (!recaptchaResponse) {
+            alert("Please complete the reCAPTCHA");
+            return;
+        }
+        
         emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, e.target, PUBLIC_KEY)
             .then((result) => {
                 console.log(result.text);
@@ -20,6 +29,11 @@ export const FormFields = (props) => {
             });
         e.target.reset();
     };
+
+    const handleCaptchaResponseChange = (response) => {
+        setRecaptchaResponse(response);
+    };
+
     return (
         <Form
             className="formContainer"
@@ -57,6 +71,9 @@ export const FormFields = (props) => {
                     placeholder="Message"
                     rows={3} />
             </Form.Group>
+
+            <ReCAPTCHA sitekey="6Ld8gXwkAAAAAJxfcv1ZTb1JVp2NQTigfbvqlakH" onChange={handleCaptchaResponseChange} />
+
             <div className="formButtonContainer">
                 <Button className="formButton" type="submit">
                     Submit
@@ -66,3 +83,4 @@ export const FormFields = (props) => {
 
     );
 };
+
