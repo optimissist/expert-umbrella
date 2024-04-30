@@ -18,7 +18,7 @@ export const FormFields = (props) => {
             alert("Please complete the reCAPTCHA");
             return;
         }
-        
+
         emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, e.target, PUBLIC_KEY)
             .then((result) => {
                 console.log(result.text);
@@ -72,7 +72,8 @@ export const FormFields = (props) => {
                     rows={3} />
             </Form.Group>
 
-            <ReCAPTCHA sitekey="6Ld8gXwkAAAAAJxfcv1ZTb1JVp2NQTigfbvqlakH" onChange={handleCaptchaResponseChange} />
+            <ReCAPTCHA
+            sitekey="6Ld8gXwkAAAAAJxfcv1ZTb1JVp2NQTigfbvqlakH" onChange={handleCaptchaResponseChange} />
 
             <div className="formButtonContainer">
                 <Button className="formButton" type="submit">
